@@ -41,6 +41,17 @@
                 </ul>
             </li>
 
+            <li class="menu-header">Products</li>
+            <li class="nav-item dropdown">
+                <a href="#"
+                    class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Categories</span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="nav-link" href="{{ route('categories.index') }}">All Categopries</a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="menu-header">Reports</li>
             <li class="nav-item dropdown">
                 <a href="#"

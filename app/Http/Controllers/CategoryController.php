@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ProductController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {   
-        // get user paginate 10
-        // $products = DB::table('products')
-        //     ->when($request->input('name'), function ($query, $name){
-        //         return $query->where('name', 'like', '%' . $name . '%')
-        //             ->orWhere('email', 'like', '%' . $name . '%');
-        //     })
-        //     ->paginate(7);
-        $products = Product::paginate(7);
-        return view('pages.products.index', compact('products'));
+    {
+         // get user paginate 10
+         $categories = DB::table('categories')
+         ->when($request->input('name'), function ($query, $name){
+             return $query->where('name', 'like', '%' . $name . '%')
+                 ->orWhere('email', 'like', '%' . $name . '%');
+         })
+         ->paginate(5);
+     return view('pages.categories.index', compact('categories'));
     }
 
     /**
