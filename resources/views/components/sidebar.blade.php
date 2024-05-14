@@ -18,6 +18,40 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="menu-header">Users</li>
+            <li class="nav-item dropdown">
+                <a href="#"
+                    class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Users</span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="nav-link" href="{{ route('users.index') }}">All Users</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="menu-header">Products</li>
+            <li class="nav-item dropdown">
+                <a href="#"
+                    class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Products</span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="nav-link" href="{{ route('products.index') }}">All Products</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="menu-header">Reports</li>
+            <li class="nav-item dropdown">
+                <a href="#"
+                    class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Reports</span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="nav-link" href="{{ route('reports.index') }}">All Reports</a>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
     </aside>
 </div>
