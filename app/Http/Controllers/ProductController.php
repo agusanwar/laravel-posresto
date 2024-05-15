@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class ProductController extends Controller
 {
@@ -29,7 +32,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = DB::table('categories')->get();
+        return view('pages.products.create', compact('categories'));
     }
 
     /**
@@ -37,7 +41,38 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validasi requuest
+        $request->validate([
+            'name' => 'required',
+            'desc' => 'required',
+            'price' => 'required|numeric',
+            'category_id' => 'required',
+            'stock' => 'required|numeric',
+            'status' => 'required|boolean',
+            'is_favorite' => 'required|boolean',
+        ]);
+
+        // store product request
+        $products = new Product();
+        $products->name= $request->name;
+        $products->desc= $request->desc;
+        $products->price= $request->price;
+        $products->category_id= $request->category_id;
+        $products->stock= $request->stock;
+        $products->status= $request->status;
+        $products->is_favorite= $request->is_favorite;
+        $products->save();
+
+        // save image
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $image->storeAs(('public/products' . $products->id. '.' . $image->getClientOriginalExtension()));
+            $products->image = 'storage/products' . $products->id . '.' . $image->getClientOriginalExtension();
+            $products->save();
+        }
+
+        return Redirect()->route('products.index')->with('success', 'Product Created Successfully');
+
     }
 
     /**
@@ -45,7 +80,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+       return view('pages.products.show');
     }
 
     /**
@@ -53,15 +88,48 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $products = Product::findOrFail($id);
+        // get table categories
+        $categories = DB::table('categories')->get();
+        return view('pages.products.edit', compact('products', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        // validasi requuest
+        $request->validate([
+            'name' => 'required',
+            'desc' => 'required',
+            'price' => 'required|numeric',
+            'category_id' => 'required',
+            'stock' => 'required|numeric',
+            'status' => 'required|boolean',
+            'is_favorite' => 'required|boolean',
+        ]);
+
+        // store product request
+        $products = Product::find($id);
+        $products->name= $request->name;
+        $products->desc= $request->desc;
+        $products->price= $request->price;
+        $products->category_id= $request->category_id;
+        $products->stock= $request->stock;
+        $products->status= $request->status;
+        $products->is_favorite= $request->is_favorite;
+        $products->save();
+
+        // save image
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $image->storeAs('public/products', $products->id . '.' . $image->getClientOriginalExtension());
+            $products->image = 'storage/products' . $products->id . '.' . $image->getClientOriginalExtension();
+            $products->save();
+        }
+
+        return Redirect()->route('products.index')->with('success', 'Update Product Successfully');
     }
 
     /**
@@ -69,6 +137,8 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $products = Product::findOrFail($id);
+        $products->delete();
+        return redirect()->route('products.index')->with('success', 'Delete Product Successfully');
     }
 }

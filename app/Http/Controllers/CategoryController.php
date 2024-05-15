@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.categories.create');
     }
 
     /**
@@ -35,7 +36,28 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validasi requuest
+        $request->validate([
+            'name' => 'required',
+            'desc' => 'required',
+            'image' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
+        ]);
+
+         // store product request
+         $categories = new Category();
+         $categories->name= $request->name;
+         $categories->desc= $request->desc;
+         $categories->save();
+         
+          // save image
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $image->storeAs(('public/categories' . $categories->id. '.' . $image->getClientOriginalExtension()));
+            $categories->image = 'storage/categories' . $categories->id . '.' . $image->getClientOriginalExtension();
+            $categories->save();
+        }
+
+        return Redirect()->route('categories.index')->with('success', 'Category Created Successfully');
     }
 
     /**
@@ -51,15 +73,36 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $categories = Category::findOrFail($id);
+        return view('pages.categories.edit', compact('categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+         // validasi requuest
+         $request->validate([
+            'name' => 'required',
+            // 'image' => 'image|mimes:jpeg,jpg,png,svg|max:2048',
+        ]);
+
+        // store product request
+        $categories = Category::find($id);
+        $categories->name= $request->name;
+        $categories->desc= $request->desc;
+        $categories->save();
+
+        // save image
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $image->storeAs('public/categories', $categories->id . '.' . $image->getClientOriginalExtension());
+            $categories->image = 'storage/categories' . $categories->id . '.' . $image->getClientOriginalExtension();
+            $categories->save();
+        }
+
+        return Redirect()->route('categories.index')->with('success', 'Update Category Successfully');
     }
 
     /**
@@ -67,6 +110,8 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $categories = Category::findOrFail($id);
+        $categories->delete();
+        return redirect()->route('categories.index')->with('success', 'Delete Category Successfully');
     }
 }

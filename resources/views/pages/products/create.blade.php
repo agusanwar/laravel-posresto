@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 
-@section('title', 'Add User')
+@section('title', 'Add Product')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -17,28 +17,24 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Form User</h1>
+                <h1>Add Data Products</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                     <div class="breadcrumb-item"><a href="#">Forms</a></div>
-                    <div class="breadcrumb-item">Users</div>
+                    <div class="breadcrumb-item">Products</div>
                 </div>
             </div>
 
             <div class="section-body">
-                <h2 class="section-title">Users</h2>
-
-
-
                 <div class="card">
-                    <form action="{{ route('users.store') }}" method="POST">
+                    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card-header">
-                            <h4>Input Text</h4>
+                            <h4>Input Data Product</h4>
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label>Name</label>
+                                <label>Name Product</label>
                                 <input type="text"
                                     class="form-control @error('name')
                                 is-invalid
@@ -50,47 +46,15 @@
                                     </div>
                                 @enderror
                             </div>
+
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="email"
-                                    class="form-control @error('email')
-                                is-invalid
-                            @enderror"
-                                    name="email">
-                                @error('email')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Phone Number</label>
+                                <label>Price</label>
                                 <input type="number"
-                                    class="form-control @error('phone')
+                                    class="form-control @error('price')
                                 is-invalid
                             @enderror"
-                                    name="phone">
-                                @error('phone')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fas fa-lock"></i>
-                                        </div>
-                                    </div>
-                                    <input type="password"
-                                        class="form-control @error('password')
-                                is-invalid
-                            @enderror"
-                                        name="password">
-                                </div>
-                                @error('password')
+                                    name="price">
+                                @error('price')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -98,27 +62,93 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Role</label>
-                                <div class="selectgroup w-100">
+                                <label>Stock</label>
+                                <input type="number"
+                                    class="form-control @error('stock')
+                                is-invalid
+                            @enderror"
+                                    name="stock">
+                                @error('stock')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <select class="form-control selectric  @error('category_id') is-invalid @enderror" 
+                                    name="category_id">
+                                    <option value="">Choose Category</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Photo Product</label>
+                                <div class="col-sm-9">
+                                    <input type="file" class="form-control" name="image"
+                                    @error('image')
+                                        is-invalid
+                                    @enderror>
+                                </div>
+                                @error('image')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Description</label>
+                                <input type="text"
+                                    class="form-control @error('desc')
+                                is-invalid
+                            @enderror"
+                                    name="desc">
+                                @error('desc')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="form-label">Status</label>
+                                <div class="selectgroup selectgroup-pills">
                                     <label class="selectgroup-item">
-                                        <input type="radio" name="roles" value="admin" class="selectgroup-input"
+                                        <input type="radio" name="status" value="1" class="selectgroup-input"
                                             checked="">
-                                        <span class="selectgroup-button">Admin</span>
+                                        <span class="selectgroup-button">Active</span>
                                     </label>
                                     <label class="selectgroup-item">
-                                        <input type="radio" name="roles" value="staff" class="selectgroup-input">
-                                        <span class="selectgroup-button">Staff</span>
+                                        <input type="radio" name="status" value="0" class="selectgroup-input">
+                                        <span class="selectgroup-button">Inactive</span>
                                     </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="roles" value="user" class="selectgroup-input">
-                                        <span class="selectgroup-button">User</span>
-                                    </label>
-
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="form-label ">Is Favorite</label>
+                                <div class="selectgroup selectgroup-pills">
+                                    <label class="selectgroup-item">
+                                        <input type="radio" name="is_favorite" value="1" class="selectgroup-input"
+                                            checked="">
+                                        <span class="selectgroup-button">Yes</span>
+                                    </label>
+                                    <label class="selectgroup-item">
+                                        <input type="radio" name="is_favorite" value="0" class="selectgroup-input">
+                                        <span class="selectgroup-button">No</span>
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="card-footer text-right">
-                            <button class="btn btn-primary">Submit</button>
+                            <button class="btn btn-primary">Add Product</button>
                         </div>
                     </form>
                 </div>
