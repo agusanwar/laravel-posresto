@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Narve Pos')
+@section('title', 'Dashboard')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -14,7 +14,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Narve Pos Resto</h1>
+                <h1>Narve Pos</h1>
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
