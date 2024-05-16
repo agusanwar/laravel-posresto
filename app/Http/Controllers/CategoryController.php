@@ -50,10 +50,10 @@ class CategoryController extends Controller
          $categories->save();
          
           // save image
-        if($request->hasFile('image')){
+        if($request->image){
             $image = $request->file('image');
-            $image->storeAs(('public/categories' . $categories->id. '.' . $image->getClientOriginalExtension()));
-            $categories->image = 'storage/categories' . $categories->id . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/categories', $categories->id . '.' . $image->extension());
+            $categories->image = 'categories/' . $categories->id . '.' . $image->extension();
             $categories->save();
         }
 
@@ -95,10 +95,10 @@ class CategoryController extends Controller
         $categories->save();
 
         // save image
-        if($request->hasFile('image')){
+        if($request->image){
             $image = $request->file('image');
-            $image->storeAs('public/categories', $categories->id . '.' . $image->getClientOriginalExtension());
-            $categories->image = 'storage/categories' . $categories->id . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/categories', $categories->id . '.' . $image->extension());
+            $categories->image = 'categories/' . $categories->id . '.' . $image->extension();
             $categories->save();
         }
 

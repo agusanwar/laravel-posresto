@@ -64,10 +64,10 @@ class ProductController extends Controller
         $products->save();
 
         // save image
-        if($request->hasFile('image')){
+        if($request->image){
             $image = $request->file('image');
-            $image->storeAs(('public/products' . $products->id. '.' . $image->getClientOriginalExtension()));
-            $products->image = 'storage/products' . $products->id . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/products', $products->id . '.' . $image->extension());
+            $products->image = 'products/' . $products->id . '.' . $image->extension();
             $products->save();
         }
 
@@ -122,10 +122,10 @@ class ProductController extends Controller
         $products->save();
 
         // save image
-        if($request->hasFile('image')){
+        if($request->image){
             $image = $request->file('image');
-            $image->storeAs('public/products', $products->id . '.' . $image->getClientOriginalExtension());
-            $products->image = 'storage/products' . $products->id . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/products', $products->id . '.' . $image->extension());
+            $products->image = 'products/' . $products->id . '.' . $image->extension();
             $products->save();
         }
 

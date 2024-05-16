@@ -21,7 +21,7 @@
                 <a class="nav-link" href="{{ route('products.index') }}"><i class="fas fa-box-archive"></i>Products</a>
             </li>
             <li>
-                <a class="nav-link" href="{{ route('categories.index') }}"><i class="fas fa-cart-shopping"></i>Categopries</a>
+                <a class="nav-link" href="{{ route('categories.index') }}"><i class="fas fa-cart-shopping"></i>Categories</a>
             </li>
             <li>
                 <a class="nav-link" href="{{ route('reports.index') }}"><i class="fas fa-clipboard"></i>All Reports</a>
