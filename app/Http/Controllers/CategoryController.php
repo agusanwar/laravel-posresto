@@ -53,7 +53,7 @@ class CategoryController extends Controller
         if($request->image){
             $image = $request->file('image');
             $image->storeAs('public/categories', $categories->id . '.' . $image->extension());
-            $categories->image = 'categories/' . $categories->id . '.' . $image->extension();
+            $categories->image = 'storage/categories/' . $categories->id . '.' . $image->extension();
             $categories->save();
         }
 
@@ -98,7 +98,7 @@ class CategoryController extends Controller
         if($request->image){
             $image = $request->file('image');
             $image->storeAs('public/categories', $categories->id . '.' . $image->extension());
-            $categories->image = 'categories/' . $categories->id . '.' . $image->extension();
+            $categories->image = 'storage/categories/' . $categories->id . '.' . $image->extension();
             $categories->save();
         }
 
